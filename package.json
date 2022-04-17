@@ -1,7 +1,7 @@
 {
   "name": "@itchat/utils",
   "version": "0.0.1",
-  "description": "",
+  "description": "Utility module for ItChat",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc"
