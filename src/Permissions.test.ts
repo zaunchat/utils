@@ -2,7 +2,7 @@ import { Permissions, PermissionString } from './Permissions.ts';
 import {
   assert,
   assertEquals,
-  assertNotEquals
+  assertNotEquals,
 } from 'https://deno.land/std@0.138.0/testing/asserts.ts';
 
 const FLAGS: PermissionString[] = ['SEND_MESSAGES', 'VIEW_CHANNEL'];
@@ -16,17 +16,17 @@ Deno.test('Permissions#toArray', () => {
 });
 
 Deno.test('Permissions#missing', () => {
-    const p = new Permissions(FLAGS[0])
-    const missing = p.missing(FLAGS)
+  const p = new Permissions(FLAGS[0]);
+  const missing = p.missing(FLAGS);
 
-    assertEquals(missing.length, 1)
-    assert(missing.every(f => FLAGS.includes(f)))
+  assertEquals(missing.length, 1);
+  assert(missing.every((f) => FLAGS.includes(f)));
 });
 
 Deno.test('Permissions#has', () => {
-    const p = new Permissions(FLAGS)
-    assert(p.has(FLAGS))
-})
+  const p = new Permissions(FLAGS);
+  assert(p.has(FLAGS));
+});
 
 Deno.test('Permissions.resolve', () => {
   const p = Permissions.resolve(FLAGS);

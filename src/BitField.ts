@@ -28,7 +28,7 @@ export class BitField {
   }
 
   has(bit: BitFieldResolvable): boolean {
-    bit = this.constructor.resolve(bit)
+    bit = this.constructor.resolve(bit);
     return (this.bitfield & bit) === bit;
   }
 
