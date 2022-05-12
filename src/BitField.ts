@@ -13,9 +13,9 @@ export declare interface BitField {
 
 export class BitField {
   static FLAGS: Record<string, bigint>;
-  bitfield = DEFAULT_BIT;
+  bitfield: bigint;
 
-  constructor(bits: BitFieldResolvable) {
+  constructor(bits: BitFieldResolvable = DEFAULT_BIT) {
     this.bitfield = this.constructor.resolve(bits);
   }
 
@@ -28,7 +28,8 @@ export class BitField {
   }
 
   has(bit: BitFieldResolvable): boolean {
-    return (this.bitfield & this.constructor.resolve(bit)) === bit;
+    bit = this.constructor.resolve(bit)
+    return (this.bitfield & bit) === bit;
   }
 
   set(bits: bigint): this {
@@ -107,7 +108,7 @@ export class BitField {
       );
     }
     if (bit instanceof BitField) return bit.bitfield;
-    if (typeof this.FLAGS[bit] !== 'undefined') return this.FLAGS[bit];
+    if (typeof this.FLAGS[bit] === 'bigint') return this.FLAGS[bit];
     throw new Error('Invalid Bit');
   }
 }

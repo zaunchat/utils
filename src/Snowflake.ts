@@ -13,7 +13,7 @@ export class Snowflake extends null {
     return (time | workerId | processId | increment);
   }
 
-  static timestampOf(id: string): number {
+  static timestampOf(id: string | bigint): number {
     return Number(BigInt(id) >> 22n) + Snowflake.EPOCH;
   }
 }
