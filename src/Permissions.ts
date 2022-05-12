@@ -1,12 +1,16 @@
-import { BitField } from './BitField'
+import { BitField } from './BitField.ts';
 
-export type PermissionString = keyof typeof FLAGS
-export type PermissionsResolvable = bigint | number | Permissions | PermissionString | PermissionsResolvable[]
+export type PermissionString = keyof typeof FLAGS;
+export type PermissionsResolvable =
+  | bigint
+  | number
+  | Permissions
+  | PermissionString
+  | PermissionsResolvable[];
 
 const FLAGS = {
   // Admin
   ADMINISTRATOR: 1n << 0n,
-
 
   // Channel
   VIEW_CHANNEL: 1n << 1n,
@@ -14,7 +18,6 @@ const FLAGS = {
   READ_MESSAGE_HISTORY: 1n << 3n,
   EMBED_LINKS: 1n << 4n,
   UPLOAD_FILES: 1n << 5n,
-
 
   // Manage
   MANAGE_SERVER: 1n << 6n,
@@ -25,61 +28,59 @@ const FLAGS = {
   BAN_MEMBERS: 1n << 11n,
   KICK_MEMBERS: 1n << 12n,
 
-
   // Member
   CHANGE_NICKNAME: 1n << 13n,
-  INVITE_OTHERS: 1n << 14n
-} as const
+  INVITE_OTHERS: 1n << 14n,
+} as const;
 
 export declare interface Permissions {
-  serialize(): Record<PermissionString, boolean>
-  any(bit: PermissionsResolvable): boolean
-  add(...bits: PermissionsResolvable[]): this
-  missing(bits: PermissionsResolvable): PermissionString[]
-  remove(...bits: PermissionsResolvable[]): this
-  has(bit: PermissionsResolvable): boolean
-  toArray(): PermissionString[]
-  equals(bit: PermissionsResolvable): boolean
+  serialize(): Record<PermissionString, boolean>;
+  any(bit: PermissionsResolvable): boolean;
+  add(...bits: PermissionsResolvable[]): this;
+  missing(bits: PermissionsResolvable): PermissionString[];
+  remove(...bits: PermissionsResolvable[]): this;
+  has(bit: PermissionsResolvable): boolean;
+  toArray(): PermissionString[];
+  equals(bit: PermissionsResolvable): boolean;
 }
 
 export class Permissions extends BitField {
-  static FLAGS: typeof FLAGS
+  static FLAGS: typeof FLAGS;
 
   constructor(...bits: PermissionsResolvable[]) {
-    super(bits)
+    super(bits);
   }
 
   missing(bits: PermissionsResolvable, checkAdmin = true): PermissionString[] {
-    if (checkAdmin && super.has(Permissions.FLAGS.ADMINISTRATOR)) return []
-    return super.missing(bits) as PermissionString[]
+    if (checkAdmin && super.has(Permissions.FLAGS.ADMINISTRATOR)) return [];
+    return super.missing(bits) as PermissionString[];
   }
 
   any(bit: PermissionsResolvable, checkAdmin = true): boolean {
-    if (checkAdmin && super.has(Permissions.FLAGS.ADMINISTRATOR)) return true
-    return super.any(bit)
+    if (checkAdmin && super.has(Permissions.FLAGS.ADMINISTRATOR)) return true;
+    return super.any(bit);
   }
 
   has(bit: PermissionsResolvable, checkAdmin = true): boolean {
-    if (checkAdmin && super.has(Permissions.FLAGS.ADMINISTRATOR)) return true
-    return super.has(bit)
+    if (checkAdmin && super.has(Permissions.FLAGS.ADMINISTRATOR)) return true;
+    return super.has(bit);
   }
 }
 
-Permissions.FLAGS = FLAGS
-
+Permissions.FLAGS = FLAGS;
 
 export const DEFAULT_PERMISSION_DM = new Permissions([
   'VIEW_CHANNEL',
   'SEND_MESSAGES',
   'EMBED_LINKS',
   'UPLOAD_FILES',
-  'READ_MESSAGE_HISTORY'
-]).bitfield
+  'READ_MESSAGE_HISTORY',
+]).bitfield;
 
 export const DEFAULT_PERMISSION_EVERYONE = new Permissions([
   'VIEW_CHANNEL',
   'SEND_MESSAGES',
   'EMBED_LINKS',
   'UPLOAD_FILES',
-  'READ_MESSAGE_HISTORY'
-]).bitfield
+  'READ_MESSAGE_HISTORY',
+]).bitfield;
