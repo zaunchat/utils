@@ -1,7 +1,16 @@
+declare const process: { pid: number };
+declare const Deno: { pid: number };
+
+const pid = typeof Deno !== 'undefined'
+  ? Deno.pid
+  : typeof process !== 'undefined'
+  ? process.pid
+  : 0;
+
 export class Snowflake extends null {
   static readonly EPOCH = new Date('2021-01-01').getTime();
   static INCREMENT = 0n;
-  static processId = BigInt(Deno.pid % 31);
+  static processId = BigInt(pid % 31);
   static workerId = BigInt((/*FIXME: cluster.worker?.id ||*/ 0) % 31);
 
   static generate(now = Date.now()): bigint {
