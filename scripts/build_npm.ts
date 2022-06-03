@@ -17,7 +17,7 @@ await build({
   package: {
     name: '@itchatapp/utils',
     version: Deno.args[0].replace(/[A-Z]+/gi, ''),
-    description: 'utils module for revolt.io',
+    description: 'utils module for itchat',
     license: 'MIT',
     repository: {
       type: 'git',
